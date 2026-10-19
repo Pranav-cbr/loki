@@ -42,14 +42,14 @@ class CommandRouter(private val ctx: Context, private val cloud: CloudAi) {
                 if (num == null) Reply(say("Say the phone number after 'call'.", "'call' के बाद फ़ोन नंबर बोलिए।"))
                 else {
                     val ok = launchOrNotify(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$num")), "Dial $num")
-                    Reply(if (ok) say("Opening the dialer.", "डायलर खोल रहा हूँ।") else tapNote(::say))
+                    if (ok) Reply(say("Opening the dialer.", "डायलर खोल रहा हूँ।")) else tapNote(::say)
                 }
             }
             Regex("^(?:search|google)\\s+(?:for\\s+)?(.+)$").find(t) != null -> {
                 val q = Regex("^(?:search|google)\\s+(?:for\\s+)?(.+)$").find(t)!!.groupValues[1]
                 val url = "https://www.google.com/search?q=" + URLEncoder.encode(q, "UTF-8")
                 val ok = launchOrNotify(Intent(Intent.ACTION_VIEW, Uri.parse(url)), "Search: $q")
-                Reply(if (ok) say("Searching for $q.", "$q खोज रहा हूँ।") else tapNote(::say))
+                if (ok) Reply(say("Searching for $q.", "$q खोज रहा हूँ।")) else tapNote(::say)
             }
             has(t, "what time", "time", "kitne baje", "samay", "समय", "टाइम", "कितने बजे") -> {
                 val now = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
