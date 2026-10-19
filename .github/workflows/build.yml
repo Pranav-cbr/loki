@@ -15,7 +15,8 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: android-actions/setup-android@v3
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses > /dev/null || true
 
       - uses: gradle/actions/setup-gradle@v4
         with:
@@ -25,6 +26,7 @@ jobs:
         run: |
           curl -L -o model.zip https://alphacephei.com/vosk/models/vosk-model-small-en-in-0.4.zip
           unzip -q model.zip
+          mkdir -p app/src/main/assets/vosk-model
           cp -r vosk-model-small-en-in-0.4/* app/src/main/assets/vosk-model/
           ls app/src/main/assets/vosk-model
 
