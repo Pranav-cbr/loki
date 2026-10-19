@@ -1,0 +1,8 @@
+*.iml
+.gradle/
+build/
+local.properties
+.idea/
+app/src/main/assets/vosk-model/*
+!app/src/main/assets/vosk-model/README.txt
+backend/node_modules/
